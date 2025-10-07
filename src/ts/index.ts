@@ -31,6 +31,7 @@ import Colorbar from './components/Colorbar';
 import MeasureControl from './components/MeasureControl';
 import EditControl from './components/EditControl';
 import GeoJSON from './components/GeoJSON';
+import MousePosition from "./components/MousePosition";
 import VectorTileLayer from './components/VectorTileLayer';
 
 export {
@@ -67,5 +68,6 @@ export {
     MeasureControl,
     EditControl,
     GeoJSON,
+    MousePosition,
     VectorTileLayer
 }
