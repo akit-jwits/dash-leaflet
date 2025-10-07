@@ -79,6 +79,11 @@ export type VectorTileLayerProps = Modify<TileLayerProps, {
      * The URL template in the form 'https://{s}.example.com/tiles/{z}/{x}/{y}.pbf'.
      */
     url?: string
+
+    /**
+     * Object intended for passing variables to functional properties, i.e. filter and style functions. [MUTABLE, DL]
+     */
+    hideout?: string | object;
 }> & VectorTileLayerOptions
 
 const _funcOptions = ["featureToLayer", "filter", "layerOrder", "style"]
@@ -87,10 +92,11 @@ export const VectorTileLayer = createTileLayerComponent<
     TileLayer,  // MAKE PROPER CLASS (might be equal though?)
     VectorTileLayerProps
 >(
-    function createTileLayer({ url, ...options }, context) {
-        const resolvedOptions = resolveProps(options, _funcOptions, context);
-        const layer = leafletVectorTileLayer(url, withPane(resolvedOptions, context))
-        return createElementObject(layer, context)
+    function createTileLayer({ url, hideout, ...options }, context) {
+        const mergedContext = { url, hideout, ...context };
+        const resolvedOptions = resolveProps(options, _funcOptions, mergedContext);
+        const layer = leafletVectorTileLayer(url, withPane(resolvedOptions, mergedContext))
+        return createElementObject(layer, mergedContext)
     },
     function updateTileLayer(layer, props, prevProps) {
         updateGridLayer(layer, props, prevProps)
